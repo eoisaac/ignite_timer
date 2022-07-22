@@ -17,17 +17,23 @@ export const HeaderContainer = styled.header`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: ${(props) => props.theme['gray-100']};
+    color: ${(props) => props.theme['gray-400']};
 
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
 
-    &:hover {
+    &.active {
+      color: ${(props) => props.theme.white};
       border-bottom-color: ${(props) => props.theme['green-500']};
     }
 
-    &.active {
-      color: ${(props) => props.theme['green-500']};
+    &:hover {
+      color: ${(props) => props.theme['gray-300']};
+    }
+
+    &:hover,
+    &.active:hover {
+      border-bottom-color: ${(props) => props.theme['green-300']};
     }
   }
 `
