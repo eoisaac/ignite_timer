@@ -38,7 +38,7 @@ const baseInput = styled.input`
   background: transparent;
 
   &::placeholder {
-    color: ${props => props.theme['gray-500']};
+    color: ${(props) => props.theme['gray-500']};
   }
 
   &:focus {
@@ -49,6 +49,10 @@ const baseInput = styled.input`
 
 export const TaskInput = styled(baseInput)`
   flex: 1;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
 `
 
 export const MinutesAmoutInput = styled(baseInput)`
