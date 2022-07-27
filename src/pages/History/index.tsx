@@ -1,5 +1,3 @@
-// import {} from './styles'
-
 import { HistoryContainer, HistoryList, Status } from './styles'
 
 export const History = () => {
