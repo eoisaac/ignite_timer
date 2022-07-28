@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { differenceInSeconds } from 'date-fns'
 import { Play } from 'phosphor-react'
 import {
   CountdownContainer,
@@ -27,11 +28,13 @@ interface Cycle {
   id: string
   task: string
   minutesAmount: number
+  startDate: Date
 }
 
 export const Home = () => {
   const [cycles, setCycles] = useState<Cycle[]>([])
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
+  const [passedSecondsAmount, setPassedSecondsAmount] = useState(0)
 
   const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -43,7 +46,15 @@ export const Home = () => {
 
   const activeCycle = cycles.find(({ id }) => id === activeCycleId)
 
-  console.log(activeCycle)
+  useEffect(() => {
+    if (activeCycle) {
+      setInterval(() => {
+        setPassedSecondsAmount(
+          differenceInSeconds(new Date(), activeCycle.startDate),
+        )
+      }, 1000)
+    }
+  }, [activeCycle])
 
   const handleCreateNewCycle = (data: NewCycleFormData) => {
     const newCycleId = String(Date.now())
@@ -51,6 +62,7 @@ export const Home = () => {
       id: newCycleId,
       task: data.task,
       minutesAmount: data.minutesAmount,
+      startDate: new Date(),
     }
 
     setCycles((prevState) => [...prevState, newCycle])
@@ -58,6 +70,17 @@ export const Home = () => {
 
     reset()
   }
+
+  const totalSecondsAmount = activeCycle ? activeCycle.minutesAmount * 60 : 0
+  const currentSecondsAmount = activeCycle
+    ? totalSecondsAmount - passedSecondsAmount
+    : 0
+
+  const minutesAmount = Math.floor(currentSecondsAmount / 60)
+  const secondsAmount = currentSecondsAmount % 60
+
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
 
   const task = watch('task')
   const isSubmitDisabled = !task
@@ -85,8 +108,8 @@ export const Home = () => {
             id="minutesAmount"
             placeholder="00"
             step={5}
-            // min={5}
-            // max={60}
+            min={5}
+            max={60}
             {...register('minutesAmount', { valueAsNumber: true })}
           />
 
@@ -94,13 +117,13 @@ export const Home = () => {
         </FormContainer>
 
         <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
 
           <CountdownSeparator>:</CountdownSeparator>
 
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountdownContainer>
 
         <StartCountdownButton type="submit" disabled={isSubmitDisabled}>
