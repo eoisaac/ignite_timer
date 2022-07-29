@@ -19,7 +19,7 @@ const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa!'),
   minutesAmount: zod
     .number()
-    .min(5, 'O ciclo precisa ser de no mínimo 5 minutos!')
+    .min(1, 'O ciclo precisa ser de no mínimo 5 minutos!')
     .max(60, 'O ciclo precisa ser de no máximo 5 minutos!'),
 })
 
@@ -31,6 +31,7 @@ interface Cycle {
   minutesAmount: number
   startDate: Date
   interruptDate?: Date
+  finishedDate?: Date
 }
 
 export const Home = () => {
@@ -48,21 +49,42 @@ export const Home = () => {
 
   const activeCycle = cycles.find(({ id }) => id === activeCycleId)
 
+  const totalSecondsAmount = activeCycle ? activeCycle.minutesAmount * 60 : 0
+  const currentSecondsAmount = activeCycle
+    ? totalSecondsAmount - passedSecondsAmount
+    : 0
+
   useEffect(() => {
     let countdown: number
 
     if (activeCycle) {
       countdown = setInterval(() => {
-        setPassedSecondsAmount(
-          differenceInSeconds(new Date(), activeCycle.startDate),
+        const secondsDifference = differenceInSeconds(
+          new Date(),
+          activeCycle.startDate,
         )
+
+        if (secondsDifference > totalSecondsAmount) {
+          setCycles((prevState) =>
+            prevState.map((cycle) => {
+              return cycle.id === activeCycleId
+                ? { ...cycle, finishedDate: new Date() }
+                : cycle
+            }),
+          )
+
+          setPassedSecondsAmount(totalSecondsAmount)
+          clearInterval(countdown)
+        } else {
+          setPassedSecondsAmount(secondsDifference)
+        }
       }, 1000)
     }
 
     return () => {
       clearInterval(countdown)
     }
-  }, [activeCycle])
+  }, [activeCycle, totalSecondsAmount, activeCycleId])
 
   const handleCreateNewCycle = (data: NewCycleFormData) => {
     const newCycleId = String(Date.now())
@@ -81,8 +103,8 @@ export const Home = () => {
   }
 
   const handleInterruptCycle = () => {
-    setCycles(
-      cycles.map((cycle) => {
+    setCycles((prevState) =>
+      prevState.map((cycle) => {
         return cycle.id === activeCycleId
           ? { ...cycle, interruptDate: new Date() }
           : cycle
@@ -91,11 +113,6 @@ export const Home = () => {
 
     setActiveCycleId(null)
   }
-
-  const totalSecondsAmount = activeCycle ? activeCycle.minutesAmount * 60 : 0
-  const currentSecondsAmount = activeCycle
-    ? totalSecondsAmount - passedSecondsAmount
-    : 0
 
   const minutesAmount = Math.floor(currentSecondsAmount / 60)
   const secondsAmount = currentSecondsAmount % 60
@@ -137,7 +154,7 @@ export const Home = () => {
             placeholder="00"
             disabled={!!activeCycle}
             step={5}
-            min={5}
+            min={1}
             max={60}
             {...register('minutesAmount', { valueAsNumber: true })}
           />
