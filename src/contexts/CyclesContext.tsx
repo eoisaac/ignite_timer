@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from 'react'
+import React, { createContext, ReactNode, useState, useReducer } from 'react'
 
 interface Cycle {
   id: string
@@ -34,7 +34,17 @@ export const CyclesContext = createContext({} as CyclesContextType)
 export const CyclesContextProvider = ({
   children,
 }: CyclesContextProviderProps) => {
-  const [cycles, setCycles] = useState<Cycle[]>([])
+  const [cycles, dispatch] = useReducer((state: Cycle[], action: any) => {
+    console.log(state)
+    console.log(action)
+
+    if (action.type === 'CREATE_NEW_CYCLE') {
+      return [...state, action.payload.newCycle]
+    }
+
+    return state
+  }, [])
+
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
   const [passedSecondsAmount, setPassedSecondsAmount] = useState(0)
 
@@ -45,13 +55,20 @@ export const CyclesContextProvider = ({
   }
 
   const setActiveCycleAsFinished = () => {
-    setCycles((prevState) => {
-      return prevState.map((cycle) => {
-        return cycle.id === activeCycleId
-          ? { ...cycle, interruptDate: new Date() }
-          : cycle
-      })
+    dispatch({
+      type: 'SET_CURRENT_CYCLE_AS_FINISHED',
+      payload: {
+        activeCycleId,
+      },
     })
+
+    // setCycles((prevState) => {
+    //   return prevState.map((cycle) => {
+    //     return cycle.id === activeCycleId
+    //       ? { ...cycle, interruptDate: new Date() }
+    //       : cycle
+    //   })
+    // })
   }
 
   const createNewCycle = (data: createNewCycleData) => {
@@ -63,12 +80,26 @@ export const CyclesContextProvider = ({
       startDate: new Date(),
     }
 
-    setCycles((prevState) => [...prevState, newCycle])
+    dispatch({
+      type: 'CREATE_NEW_CYCLE',
+      payload: {
+        newCycle,
+      },
+    })
+
+    // setCycles((prevState) => [...prevState, newCycle])
     setActiveCycleId(newCycleId)
     setPassedSecondsAmount(0)
   }
 
   const interruptActiveCycle = () => {
+    dispatch({
+      type: 'INTERRUPT_CURRENT_CYCLE',
+      payload: {
+        activeCycleId,
+      },
+    })
+
     setActiveCycleAsFinished()
     setActiveCycleId(null)
   }
