@@ -28,10 +28,10 @@ export const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
-    background-color: ${(props) => props.theme['gray-600']};
+    background-color: transparent;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 8px;
-    background-color: ${(props) => props.theme['green-500']};
+    background-color: ${(props) => props.theme['gray-600']};
   }
 `
