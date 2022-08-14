@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
 export const HomeContainer = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  max-width: 74rem;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
 
   form {
+    width: 100%;
+    max-width: 40rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,15 +18,15 @@ export const HomeContainer = styled.main`
   }
 `
 export const BaseCountdownButton = styled.button`
-  border: none;
-  padding: 1rem;
-  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 1rem;
   font-size: 1.1rem;
-  color: ${(props) => props.theme['gray-100']};
   font-weight: 700;
+  color: ${(props) => props.theme['gray-100']};
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
 
   &:disabled {

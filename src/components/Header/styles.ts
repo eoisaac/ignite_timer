@@ -7,6 +7,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
+  margin-bottom: 1rem;
 
   nav {
     display: inline-flex;
@@ -14,14 +15,11 @@ export const HeaderContainer = styled.header`
   }
 
   a {
-    width: 3rem;
-    height: 3rem;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.5rem;
     color: ${(props) => props.theme['gray-400']};
-
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
 

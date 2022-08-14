@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 
 export const HistoryContainer = styled.main`
-  flex: 1;
+  width: 100%;
+  max-width: 74rem;
   display: flex;
   flex-direction: column;
-  padding: 3.5rem;
+  margin: 0 auto;
+  overflow: auto;
   border-radius: 8px;
 
   h1 {
@@ -15,7 +17,7 @@ export const HistoryContainer = styled.main`
 
 export const HistoryList = styled.div`
   flex: 1;
-  margin-top: 2rem;
+  margin-top: 1rem;
   overflow: auto;
 
   table {
@@ -25,7 +27,6 @@ export const HistoryList = styled.div`
 
     th {
       padding: 1rem;
-      line-height: 1.6;
       text-align: left;
       font-size: 0.875rem;
       color: ${(props) => props.theme['gray-100']};
@@ -33,29 +34,28 @@ export const HistoryList = styled.div`
 
       &:first-child {
         border-top-left-radius: 8px;
-        padding-left: 1.5rem;
+        padding-left: 1rem;
       }
 
       &:last-child {
         border-top-right-radius: 8px;
-        padding-right: 1.5rem;
+        padding-right: 1rem;
       }
     }
 
     td {
       padding: 1rem;
-      line-height: 1.6;
       font-size: 0.875rem;
       border-top: 4px solid ${(props) => props.theme['gray-800']};
       background-color: ${(props) => props.theme['gray-700']};
 
       &:first-child {
         width: 50%;
-        padding-left: 1.5rem;
+        padding-left: 1rem;
       }
 
       &:last-child {
-        padding-right: 1.5rem;
+        padding-right: 1rem;
       }
     }
   }
