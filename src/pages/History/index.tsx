@@ -2,14 +2,20 @@ import { useContext } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CyclesContext } from '../../contexts/CyclesContext'
-import { HistoryContainer, HistoryList, Status } from './styles'
+import { HistoryContainer, HistoryHeader, HistoryList, Status } from './styles'
+import { Trash } from 'phosphor-react'
 
 export const History = () => {
-  const { cycles } = useContext(CyclesContext)
+  const { cycles, clearCyclesHistory } = useContext(CyclesContext)
 
   return (
     <HistoryContainer>
-      <h1>Meu Histórico</h1>
+      <HistoryHeader>
+        <h1>Meu Histórico</h1>
+        <button onClick={clearCyclesHistory} title="Limpar histórico">
+          <Trash size={24} />
+        </button>
+      </HistoryHeader>
 
       <HistoryList>
         <table>

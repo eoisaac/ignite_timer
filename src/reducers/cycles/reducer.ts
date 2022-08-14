@@ -44,6 +44,16 @@ export const cyclesReducer = (state: CyclesState, action: any) => {
         }),
         activeCycleId: null,
       }
+
+    case ActionTypes.CLEAR_CYCLES_HISTORY:
+      return {
+        ...state,
+        cycles: state.activeCycleId
+          ? [state.cycles.find((cycle) => cycle.id === state.activeCycleId)]
+          : [],
+        // activeCycleId: state.activeCycleId,
+      }
+
     default:
       return state
   }

@@ -4,6 +4,7 @@ export enum ActionTypes {
   CREATE_NEW_CYCLE = 'CREATE_NEW_CYCLE',
   INTERRUPT_ACTIVE_CYCLE = 'INTERRUPT_ACTIVE_CYCLE',
   SET_ACTIVE_CYCLE_AS_FINISHED = 'SET_ACTIVE_CYCLE_AS_FINISHED',
+  CLEAR_CYCLES_HISTORY = 'CLEAR_CYCLES_HISTORY',
 }
 
 export const createNewCycleAction = (newCycle: Cycle) => {
@@ -24,5 +25,11 @@ export const interruptActiveCycleAction = () => {
 export const setActiveCycleAsFinishedAction = () => {
   return {
     type: ActionTypes.SET_ACTIVE_CYCLE_AS_FINISHED,
+  }
+}
+
+export const clearCyclesHistoryAction = () => {
+  return {
+    type: ActionTypes.CLEAR_CYCLES_HISTORY,
   }
 }

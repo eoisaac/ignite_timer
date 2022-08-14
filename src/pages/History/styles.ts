@@ -8,10 +8,31 @@ export const HistoryContainer = styled.main`
   margin: 0 auto;
   overflow: auto;
   border-radius: 8px;
+`
+
+export const HistoryHeader = styled.div`
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
 
   h1 {
     font-size: 1.5rem;
     color: ${(props) => props.theme['gray-100']};
+  }
+
+  button {
+    line-height: 0;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: ${(props) => props.theme['gray-500']};
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    &:hover {
+      color: ${(props) => props.theme['red-500']};
+    }
   }
 `
 
