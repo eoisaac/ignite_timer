@@ -12,9 +12,16 @@ export const HistoryContainer = styled.main`
 
 export const HistoryHeader = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+export const HeaderRow = styled.div`
+  width: 100%;
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 
   h1 {
     font-size: 1.5rem;
@@ -33,6 +40,19 @@ export const HistoryHeader = styled.div`
     &:hover {
       color: ${(props) => props.theme['red-500']};
     }
+  }
+`
+
+export const HeaderStats = styled.div`
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: ${(props) => props.theme['gray-500']};
+
+  span {
+    color: ${(props) => props.theme['gray-300']};
   }
 `
 

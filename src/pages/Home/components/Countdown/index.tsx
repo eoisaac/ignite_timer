@@ -56,7 +56,9 @@ export const Countdown = () => {
   const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
-    document.title = activeCycle ? `${minutes}:${seconds}` : 'Ignite Timer'
+    document.title = activeCycle
+      ? `${minutes}:${seconds} - Foco!`
+      : 'Ignite Timer'
   }, [activeCycle, minutes, seconds])
 
   return (

@@ -14,7 +14,7 @@ export const Header = () => {
         <NavLink to="/" title="Timer">
           <Timer size={24} />
         </NavLink>
-        <NavLink to="/history" title="Histórico">
+        <NavLink to="/historico" title="Histórico">
           <Scroll size={24} />
         </NavLink>
       </nav>
